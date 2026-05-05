@@ -201,6 +201,34 @@ Planned extensions:
 
 ---
 
+---
+
+## 🧠 Advanced Topics
+
+This project incorporates several advanced data science techniques:
+
+### 1. Online Database / API Integration (1 pts)
+Market data is retrieved using yfinance and FRED APIs. This allows the model to operate on real-world financial data.
+
+### 2. Markov Chains (0.5 pt)
+The binomial model is a discrete-time stochastic process where each state depends only on the previous state, satisfying the Markov property.
+
+### 3. Nonlinear Modeling (1.5 pts)
+Option pricing is inherently nonlinear due to payoff functions such as max(S-K,0), which create asymmetric responses.
+
+### 4. Interactive Visualization (1.5 pts)
+Visualization tools are used to explore convergence, pricing behavior, and model outputs.
+
+### 5. Error Analysis (0.5 pts)
+The model is validated by comparing binomial outputs to Black-Scholes, computing absolute and relative error.
+
+### 6. Feature Engineering (0.5 pts)
+Volatility is estimated from historical log returns, and model parameters such as risk-neutral probabilities are derived.
+
+Total: 4+ points satisfied
+
+---
+
 ## 📫 Author
 
 **Daron Baltazar**  
