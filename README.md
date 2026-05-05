@@ -1,234 +1,401 @@
-# 📈 Option Pricing with Binomial Trees & Black–Scholes
+# 📈 Interactive Option Pricing and Hedging Dashboard
 
 **Language:** Python  
 **Domain:** Quantitative Finance / Data Science  
-**Platform:** Google Colab  
-**Data Sources:** yfinance + FRED  
-**Status:** In active development (research + experiments)
+**Framework:** Streamlit + Scientific Python  
+**Data Sources:** Yahoo Finance (`yfinance`) + FRED  
+**Author:** Daron Baltazar  
+**Institution:** Belmont University – Finance & Computer Science  
+**Status:** Research + Interactive Dashboard Prototype
 
 ---
 
-## 📌 Project Overview
+# 📌 Project Overview
 
-This project builds a **fully reproducible option pricing pipeline** that connects:
+This project builds an interactive financial decision-support system that combines:
 
-- Financial theory  
-- Real market data  
-- Numerical methods  
-- Statistical analysis  
+- Quantitative Finance
+- Numerical Methods
+- Stochastic Modeling
+- Data Science Workflows
+- Interactive Visualization
+- Real Market Data
 
-The goal is to price **European call options** using the **Cox–Ross–Rubinstein (CRR) binomial tree model** and validate the results against the **Black–Scholes closed-form solution**.
+The system prices financial options using both the:
 
-The project treats option pricing as a **data science workflow**, combining:
+- Cox–Ross–Rubinstein (CRR) Binomial Tree Model
+- Black–Scholes Analytical Model
 
-- Data acquisition  
-- Parameter estimation  
-- Numerical simulation  
-- Model validation  
+and compares their behavior using real financial market data.
 
-This creates a complete bridge between **finance, mathematics, and computation**.
+The project investigates:
 
----
+- Numerical convergence
+- Pricing sensitivity
+- Nonlinear payoff behavior
+- Early exercise decisions
+- Delta hedging
+- Scenario analysis
 
-## 🎯 Core Goals
-
-This project investigates:
-
-- How accurately the binomial model approximates Black–Scholes
-- How binomial step count affects pricing error
-- How volatility estimation impacts pricing
-- The tradeoff between **accuracy vs computational cost**
+while demonstrating how theoretical financial mathematics can be translated into a real computational workflow.
 
 ---
 
-## 📊 Key Features
+# 🎯 Project Objectives
 
-- Real market data integration (stocks + interest rates)
-- Binomial tree implementation from scratch
-- Black–Scholes analytical pricing implementation
-- Convergence analysis and error measurement
-- Runtime and scalability analysis
-- Fully reproducible notebook pipeline
-- Visualization of pricing behavior and model convergence
+The goals of the project are to:
+
+- Build a reproducible option pricing pipeline
+- Compare discrete vs continuous pricing models
+- Analyze convergence behavior
+- Evaluate pricing sensitivity under market shocks
+- Explore American option early exercise decisions
+- Translate pricing outputs into hedging insights
+- Demonstrate practical quantitative finance workflows
 
 ---
 
-## 🧠 Technical Implementation
+# 📊 Financial Models Implemented
 
-### Financial Models Implemented
+## 1️⃣ Cox–Ross–Rubinstein (CRR) Binomial Model
 
-#### Cox–Ross–Rubinstein (CRR) Binomial Model
-- Discrete-time stock price lattice
+The CRR model is implemented from scratch using:
+
+- Discrete-time stock price lattices
+- Recombining tree structures
 - Risk-neutral valuation
 - Backward induction pricing
-- Configurable number of steps (N)
+- Configurable binomial step counts
 
-#### Black–Scholes Model
-- Closed-form European call pricing
-- Used as the **benchmark / ground truth**
+The implementation supports:
 
----
+- European options
+- American options
+- Tree visualization
+- Early exercise detection
+- Scenario analysis
 
-### Data Pipeline
+### Key Equations
 
-The project uses **live financial data**:
+#### Time Step
 
-- Stock prices → `yfinance`
-- Risk-free rates → FRED
-- Volatility estimated via:
-  - Historical log returns
-  - Implied volatility (optional)
+\[
+\Delta t = \frac{T}{N}
+\]
 
----
+#### Up / Down Factors
 
-## 🔬 Experiments & Analysis
+\[
+u = e^{\sigma \sqrt{\Delta t}}
+\]
 
-### 1️⃣ Convergence Study
-Compare binomial prices vs Black-Scholes by sweeping across step sizes:
-N = {5, 10, 25, 50, 100, 200, 500}
+\[
+d = \frac{1}{u}
+\]
 
-Goal:
-- Demonstrate numerical convergence
-- Measure pricing error vs N
+#### Risk-Neutral Probability
 
----
+\[
+p = \frac{e^{(r-q)\Delta t} - d}{u-d}
+\]
 
-### 2️⃣ Volatility Sensitivity
-Compare pricing using:
+#### American Option Decision Rule
 
-- Historical volatility
-- Implied volatility
-
-Shows how **parameter estimation affects pricing accuracy**.
-
----
-
-### 3️⃣ Computational Efficiency
-Measure runtime as tree depth increases.
-
-Illustrates the tradeoff between:
-
-- Computational cost  
-- Pricing accuracy  
+\[
+V = \max(\text{hold}, \text{exercise})
+\]
 
 ---
 
-## 📈 Example Results
+## 2️⃣ Black–Scholes Model
 
-Example using Starbucks (SBUX):
+The Black–Scholes model is implemented as the continuous-time benchmark.
+
+It is used to:
+
+- Validate numerical convergence
+- Compare pricing accuracy
+- Measure approximation error
+
+The Black–Scholes model assumes:
+
+- European exercise
+- Constant volatility
+- Continuous trading
+- Frictionless markets
+
+---
+
+# 🔬 Data Pipeline
+
+The project integrates live financial market data.
+
+| Data Type | Source |
+|---|---|
+| Stock Prices | Yahoo Finance |
+| Treasury Rates | FRED |
+| Volatility | Historical Log Returns |
+
+The workflow:
+
+1. Fetch market data
+2. Estimate volatility
+3. Build stock price lattice
+4. Compute option payoffs
+5. Apply backward induction
+6. Compare against Black–Scholes
+7. Run scenario analysis
+8. Compute hedge ratios
+
+---
+
+# ⚙️ Project Architecture
+
+The project uses a modular architecture separating:
+
+- Computational logic
+- Visualization
+- Data acquisition
+- UI components
+
+```text
+option-pricing-dashboard/
+│
+├── app.py                      # Streamlit dashboard UI
+│
+├── src/
+│   ├── binomial_model.py       # CRR pricing engine
+│   ├── black_scholes.py        # Black–Scholes model
+│   ├── volatility.py           # Volatility estimation
+│   ├── hedging.py              # Delta hedge calculations
+│   ├── scenarios.py            # Scenario analysis
+│   ├── tree_visualization.py   # Lattice visualization
+│   └── data_loader.py          # Market data retrieval
+│
+├── figures/                    # Generated visualizations
+├── notebooks/                  # Research notebooks
+├── requirements.txt
+└── README.md
+
+
+```
+
+# 📂 Where to Find Key Components
+
+| Component | File |
+|---|---|
+| CRR Pricing Logic | `src/binomial_model.py` |
+| Black–Scholes Pricing | `src/black_scholes.py` |
+| Volatility Estimation | `src/volatility.py` |
+| Delta / Hedging Logic | `src/hedging.py` |
+| Scenario Analysis | `src/scenarios.py` |
+| Tree Visualization | `src/tree_visualization.py` |
+| Streamlit Dashboard | `app.py` |
+
+The codebase is documented internally with comments and docstrings explaining pricing logic, tree construction, and numerical methods.
+
+---
+
+# 🔬 Experiments & Analysis
+
+ 1️⃣ Convergence Analysis
+
+The project compares CRR binomial prices against Black–Scholes across varying step counts:
+
+`N = {5, 10, 25, 50, 100, 200, 500}`
+
+This demonstrates numerical convergence:
+
+**Binomial Price → Black–Scholes Price**
+
+ Metrics Evaluated
+
+- Absolute Error
+- Relative Error
+- Runtime Performance
+
+---
+
+ 2️⃣ Scenario Analysis
+
+The dashboard evaluates pricing sensitivity under shocked market conditions.
+
+ Example Shocks
+
+- Stock Price ±5%
+- Stock Price ±10%
+
+ Outputs Include
+
+- Repriced option values
+- Profit / Loss vs baseline
+- Sensitivity analysis
+- Nonlinear pricing behavior
+
+---
+
+ 3️⃣ Hedging Analysis
+
+The project computes option delta and translates it into hedge ratios.
+
+ Hedge Equation
+ 
+`Shares to Hedge = Delta × 100 × Contracts`
+
+This demonstrates how option pricing models can support portfolio risk management.
+
+---
+
+ 4️⃣ American Option Early Exercise
+
+The project evaluates:
+
+- Continuation value
+- Intrinsic value
+
+at every node in the lattice.
+
+This enables:
+
+- Early exercise detection
+- Path-dependent pricing
+- American option valuation
+
+---
+
+# 📈 Example Results
+
+Example using Starbucks (SBUX - around presentation day):
 
 | Metric | Value |
 |---|---|
-| Binomial Price | 6.2614 |
-| Black-Scholes Price | 6.3382 |
-| Relative Error | **1.21%** |
+| Binomial Price | 14.2849 |
+| Black–Scholes Price | 14.2711 |
+| Absolute Error | 0.0138 |
+| Relative Error | 0.25% |
 
-Even with a small number of steps, the binomial model closely matches the continuous solution.
+ Results Show That
+
+- The CRR model converges toward Black–Scholes
+- Pricing is highly sensitive to volatility
+- Option behavior is nonlinear
+- American puts frequently produce early exercise regions
 
 ---
 
-## 🛠️ Tech Stack
+# 📚 Key Technical Concepts Demonstrated
+
+ Quantitative Finance
+
+- Risk-neutral valuation
+- Delta hedging
+- Option valuation theory
+- Early exercise analysis
+- Sensitivity analysis
+
+---
+
+ Data Science & Numerical Methods
+
+- Numerical simulation
+- Convergence analysis
+- Statistical parameter estimation
+- Scientific visualization
+- Scenario analysis
+
+---
+
+ Software Engineering
+
+- Modular architecture
+- Reproducible workflows
+- Interactive dashboards
+- Separation of UI and computational logic
+
+---
+
+# ⚠️ Limitations
+
+Current limitations include:
+
+- Historical volatility instead of implied volatility
+- Simplified market assumptions
+- No transaction costs
+- Black–Scholes assumes European exercise
+- No stochastic volatility modeling
+
+---
+
+# 🚀 Future Improvements
+
+Planned extensions include:
+
+- Monte Carlo simulation
+- Greeks beyond delta
+- Volatility surface modeling
+- Portfolio-level aggregation
+- Real-time deployment
+- GPU acceleration
+- Stochastic volatility models
+
+---
+
+# 🛠️ Tech Stack
 
 - Python
 - NumPy
 - Pandas
 - SciPy
 - Matplotlib
+- Streamlit
 - yfinance
-- Google Colab
+- FRED API
 
 ---
 
-## 📂 Code Structure
+# 🚀 How to Run
 
-option-pricing-binomial-bs
-├── notebooks/ # Main research notebook
+```text
 
-│ └── OptionPricingPipeline.ipynb
+ 1️⃣ Install dependencies
+pip install -r requirements.txt
 
-│
 
-├── src/ # Core pricing & data modules
+ 2️⃣ Launch the dashboard
+streamlit run app.py
 
-│ ├── binomial_model.py # CRR binomial tree implementation
+ 3️⃣ Open in browser
+Streamlit will automatically launch a local server
 
-│ ├── black_scholes.py # Analytical pricing model
+```
 
-│ ├── volatility.py # Volatility estimation utilities
-
-│ └── data_loader.py # Market data acquisition
-
-│
-
-├── figures/ # Generated plots & visuals
-
-├── requirements.txt # Project dependencies
-
-└── README.md # Project documentation
-
----
-
-## 📚 Skills Demonstrated
-
-### Quantitative Finance
-- Risk-neutral pricing
-- Option valuation theory
-- Volatility estimation
-- Model validation
-
-### Data Science & Numerical Methods
-- Building reproducible pipelines
-- Numerical convergence analysis
-- Statistical parameter estimation
-- Scientific visualization
-
-### Software Engineering
-- Modular Python architecture
-- Reproducible research workflows
-- Documentation and packaging for GitHub
-
----
-
-## 🚀 Future Improvements
-
-Planned extensions:
-
-- Monte Carlo simulation methods
-- Greeks and hedging analysis
-- Volatility surface modeling
-- Stress testing and scenario analysis
-
----
-
----
-
-## 🧠 Advanced Topics
+# 🧠 Advanced Topics
 
 This project incorporates several advanced data science techniques:
 
-### 1. Online Database / API Integration (1 pts)
+1. Online Database / API Integration (1 pts)
 Market data is retrieved using yfinance and FRED APIs. This allows the model to operate on real-world financial data.
 
-### 2. Markov Chains (0.5 pt)
+2. Markov Chains (0.5 pt)
 The binomial model is a discrete-time stochastic process where each state depends only on the previous state, satisfying the Markov property.
 
-### 3. Nonlinear Modeling (1.5 pts)
+3. Nonlinear Modeling (1.5 pts)
 Option pricing is inherently nonlinear due to payoff functions such as max(S-K,0), which create asymmetric responses.
 
-### 4. Interactive Visualization (1.5 pts)
+4. Interactive Visualization (1.5 pts)
 Visualization tools are used to explore convergence, pricing behavior, and model outputs.
 
-### 5. Error Analysis (0.5 pts)
+5. Error Analysis (0.5 pts)
 The model is validated by comparing binomial outputs to Black-Scholes, computing absolute and relative error.
 
-### 6. Feature Engineering (0.5 pts)
+6. Feature Engineering (0.5 pts)
 Volatility is estimated from historical log returns, and model parameters such as risk-neutral probabilities are derived.
 
 Total: 4+ points satisfied
 
 ---
 
-## 📫 Author
+# 📫 Author
 
 **Daron Baltazar**  
 GitHub: https://github.com/Tigranasouras  
@@ -236,6 +403,6 @@ LinkedIn: https://www.linkedin.com/in/daron-baltazar/
 
 ---
 
-## ⚠️ Disclaimer
+# ⚠️ Disclaimer
 
 This project is for **educational and research purposes only** and does not constitute financial advice.
