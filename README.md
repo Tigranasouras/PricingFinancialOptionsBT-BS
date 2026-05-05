@@ -193,7 +193,6 @@ option-pricing-binomial-bs
 
 Planned extensions:
 
-- American option pricing
 - Monte Carlo simulation methods
 - Greeks and hedging analysis
 - Volatility surface modeling
